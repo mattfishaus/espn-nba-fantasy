@@ -1,5 +1,6 @@
 library(shiny)
-library(dbConnect)
+library(tidyverse)
+library(xtable)
 
 #Connect to Postgres db
 con <- dbConnect(RPostgres::Postgres(),dbname = 'roster_scores', host = 'db-postgresql-sgp1-84573-do-user-1917838-0.db.ondigitalocean.com', port = 25060, user = 'doadmin', password = 'lzyhz8inuf02262q')
