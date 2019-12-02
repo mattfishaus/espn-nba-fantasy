@@ -1,7 +1,7 @@
 library(shiny)
 
 ui <- fluidPage(
-  titlePanel("The League Power Rankings")
+  titlePanel("TP has rabies!!")
 )
 
 server <- function(input, output) {
