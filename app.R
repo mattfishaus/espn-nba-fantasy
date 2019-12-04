@@ -1,6 +1,5 @@
 library(RPostgres)
 library(shiny)
-library(tidyverse)
 library(DT)
 
 #connect to Postgres db
@@ -29,7 +28,7 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   # Filter data based on selections
-  output$result <- DT::renderDataTable(DT::dataTable({
+  output$result <- DT::renderDataTable(DT::datatable({
     data <- score_team
     if (input$man != "All") {
       data <- data[data$weekno == input$week,]
