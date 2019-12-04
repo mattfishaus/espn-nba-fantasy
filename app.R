@@ -12,8 +12,8 @@ player_scores <- dbGetQuery(conn, "SELECT * from player_scores")
 team_scores <- player_scores %>% select(weekno, teamno, fgm, fga, ftm, fta, tpm, pts, reb, ast, stl, blk, tover) %>% group_by(weekno, teamno) %>% summarise(fgPct= round(sum(fgm)/sum(fga),4), ftPct= round(sum(ftm)/sum(fta),4), tpm= sum(tpm), pts= sum(pts), reb= sum(reb), ast= sum(ast), stl= sum(stl), blk= sum(blk), tover= sum(tover))
 
 #write data frame by team into Postgres
-dbRemoveTable(conn,"team_scores")
-dbWriteTable(conn,"INSERT INTO team_scores",team_scores)
+#dbRemoveTable(conn,"team_scores")
+#dbWriteTable(conn,"INSERT INTO team_scores",team_scores)
 
 #create shinyapp
 ui <- fluidPage(
