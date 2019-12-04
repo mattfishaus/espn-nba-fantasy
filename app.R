@@ -30,10 +30,10 @@ server <- function(input, output) {
   # Filter data based on selections
   output$result <- DT::renderDataTable(DT::datatable({
     data <- score_team
-    if (input$man != "All") {
+    if (input$week != "All") {
       data <- data[data$weekno == input$week,]
     }
-    if (input$trans != "All") {
+    if (input$team != "All") {
       data <- data[data$teamno == input$team,]
     }
     data
