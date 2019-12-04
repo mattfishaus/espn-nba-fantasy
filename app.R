@@ -1,5 +1,6 @@
 library(RPostgres)
 library(shiny)
+library(dplyr)
 library(DT)
 
 #connect to Postgres db
