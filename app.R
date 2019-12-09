@@ -34,11 +34,24 @@ funLOSS <- function(x) {
   }
 }
 
+funRESULT <- function(x) {
+  if (x > 0) {
+    return("WON")
+  } else if (x == 0) {
+    return("TIE")
+  } else {
+    return ("LOSS")
+  }
+}
+
 #create new matchup_results data frame
 matchup_results <- matchup_results %>% 
   select(weekno, team, opponent, fgpct, ftpct, tpm, pts, reb, ast, stl, blk, tover) %>%
   group_by(weekno, team, opponent) %>%
-  summarise(WINS = funWIN(fgpct) + funWIN(ftpct) + funWIN(tpm) + funWIN(pts) + funWIN(ast) + funWIN(stl) + funWIN(blk) + funWIN(tover))
+  summarise(WIN = funWIN(fgpct) + funWIN(ftpct) + funWIN(tpm) + funWIN(pts) + funWIN(ast) + funWIN(stl) + funWIN(blk) + funWIN(tover),
+            TIE = funTIE(fgpct) + funTIE(ftpct) + funTIE(tpm) + funTIE(pts) + funTIE(ast) + funTIE(stl) + funTIE(blk) + funTIE(tover),
+            LOSS = funLOSS(fgpct) + funLOSS(ftpct) + funLOSS(tpm) + funLOSS(pts) + funLOSS(ast) + funLOSS(stl) + funLOSS(blk) + funLOSS(tover),
+            RESULT = funRESULT(sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(ast) + sum(stl) + sum(blk) + sum(tover)))
 
 #create shinyapp
 ui <- fluidPage(
