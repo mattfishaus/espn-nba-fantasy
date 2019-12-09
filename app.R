@@ -38,7 +38,7 @@ funLOSS <- function(x) {
 matchup_results <- matchup_results %>% 
   select(weekno, team, opponent, fgpct, ftpct, tpm, pts, reb, ast, stl, blk, tover) %>%
   group_by(weekno, team, opponent) %>%
-  summarise(WINS = sum(funWIN(fgpct)) + sum(funWIN(ftpct)) + sum(funWIN(tpm)) + sum(fuWIN(pts)) + sum(funWIN(ast)) + sum(funWIN(stl)) + sum(funWIN(blk)) + sum(funWIN(tover)))
+  summarise(WINS = funWIN(fgpct) + funWIN(ftpct) + funWIN(tpm) + fuWIN(pts) + funWIN(ast) + funWIN(stl) + funWIN(blk) + funWIN(tover))
 
 #create shinyapp
 ui <- fluidPage(
