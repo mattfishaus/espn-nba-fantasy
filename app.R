@@ -54,7 +54,7 @@ server <- function(input, output) {
     }
     data
   }
-  options = list(pageLength = 25)))
+  ),options = list(pageLength = 25))
 }
 
 shinyApp(ui = ui, server = server)
