@@ -7,7 +7,7 @@ library(DT)
 conn <- dbConnect(RPostgres::Postgres(),dbname = 'roster_scores', host = 'db-postgresql-sgp1-84573-do-user-1917838-0.db.ondigitalocean.com', port = 25060, user = 'doadmin', password = 'lzyhz8inuf02262q')
 
 #query the db and save data frame
-matchup_scores <- dbGetQuery(conn, "SELECT * from matchup_scores")
+matchup_scores <- dbGetQuery(conn, "SELECT * from matchup_results")
 
 #create functions
 varCat <- function(x) {
@@ -31,11 +31,10 @@ resultMatch <- function(x) {
 }
 
 #create new matchup_results data frame
-matchup_results <- matchup_scores %>% 
-  select(weekno, team, opponent, fgpct_diff, ftpct_diff, tpm_diff, pts_diff, reb_diff, ast_diff, stl_diff, blk_diff, tover_diff) %>%
+matchup_results <- matchup_results %>% 
+  select(weekno, team, opponent, fgpct, ftpct, tpm, pts, reb, ast, stl, blk, tover) %>%
   group_by(weekno, team, opponent) %>% 
-  summarise(fgpct= varCat(fgpct_diff), ftpct= varCat(ftpct_diff), tpm= varCat(tpm_diff), pts= varCat(pts_diff), reb= varCat(reb_diff), ast= varCat(ast_diff), stl= varCat(stl_diff), blk= varCat(blk_diff), tover= varCat(tover_diff))
-  #cbind(matchup_results,rowSums(matchup_results))
+  summarise(WINS = matchup_results$fgpct + matchup_results$ftpct + matchup_results$tpm + matchup_results$pts + matchup_results$reb + matchup_results$ast =  matchup_results$stl + matchup_results$blk + matchup_results$tover)
 
 #create shinyapp
 ui <- fluidPage(
