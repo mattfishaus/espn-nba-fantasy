@@ -11,7 +11,7 @@ matchup_results <- dbGetQuery(conn, "SELECT * from matchup_results")
 
 #create functions
 funWIN <- function(x) {
-  if (x = 1) {
+  if (x == 1) {
     return(1)
   } else {
     return(0)
@@ -19,7 +19,7 @@ funWIN <- function(x) {
 }
 
 funTIE <- function(x) {
-  if (x = 0) {
+  if (x == 0) {
     return(1)
   } else {
     return(0)
@@ -27,7 +27,7 @@ funTIE <- function(x) {
 }
 
 funLOSS <- function(x) {
-  if (x = -1) {
+  if (x == -1) {
     return(1)
   } else {
     return(0)
