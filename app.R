@@ -10,23 +10,27 @@ conn <- dbConnect(RPostgres::Postgres(),dbname = 'roster_scores', host = 'db-pos
 matchup_results <- dbGetQuery(conn, "SELECT * from matchup_results")
 
 #create functions
-varCat <- function(x) {
-  if (x > 0) {
+funWIN <- function(x) {
+  if (x = 1) {
     return(1)
-  } else if (x == 0) {
-    return(0)
   } else {
-    return(-1)
+    return(0)
   }
 }
 
-resultMatch <- function(x) {
-  if (x > 0) {
-    return("WIN")
-  } else if (x == 0) {
-    return("TIE")
+funTIE <- function(x) {
+  if (x = 0) {
+    return(1)
   } else {
-    return("LOSS")
+    return(0)
+  }
+}
+
+funLOSS <- function(x) {
+  if (x = -1) {
+    return(1)
+  } else {
+    return(0)
   }
 }
 
@@ -34,7 +38,7 @@ resultMatch <- function(x) {
 matchup_results <- matchup_results %>% 
   select(weekno, team, opponent, fgpct, ftpct, tpm, pts, reb, ast, stl, blk, tover) %>%
   group_by(weekno, team, opponent) %>%
-  summarise(WINS = sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(ast) + sum(stl) + sum(blk) + sum(tover))
+  summarise(WINS = sum(fgpct, ftpct, tpm, pts, ast, stl, blk, tover))
 
 #create shinyapp
 ui <- fluidPage(
