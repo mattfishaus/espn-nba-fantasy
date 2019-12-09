@@ -44,6 +44,7 @@ ui <- fluidPage(
 server <- function(input, output) {
   # Filter data based on selections
   output$result <- DT::renderDataTable(DT::datatable({
+    pageLength = 15
     data <- matchup_results
     if (input$week != "All") {
       data <- data[data$weekno == input$week,]
