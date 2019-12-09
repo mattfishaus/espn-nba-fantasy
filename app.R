@@ -34,7 +34,7 @@ resultMatch <- function(x) {
 matchup_results <- matchup_results %>% 
   select(weekno, team, opponent, fgpct, ftpct, tpm, pts, reb, ast, stl, blk, tover) %>%
   group_by(weekno, team, opponent) %>%
-  summarise(WINS = sum(fgpct)) #+ sum(ftpct) + sum(tpm) + sum(pts) + sum(ast) + sum(stl) + sum(blk) + sum(tover))
+  summarise(WINS = sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(ast) + sum(stl) + sum(blk) + sum(tover))
 
 #create shinyapp
 ui <- fluidPage(
