@@ -22,11 +22,11 @@ varCat <- function(x) {
 
 resultMatch <- function(x) {
   if (x > 0) {
-    return(WIN)
+    return("WIN")
   } else if (x == 0) {
-    return(TIE)
+    return("TIE")
   } else {
-    return(LOSS)
+    return("LOSS")
   }
 }
 
