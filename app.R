@@ -53,9 +53,19 @@ matchup_results <- matchup_results %>%
             LOSS = funLOSS(fgpct) + funLOSS(ftpct) + funLOSS(tpm) + funLOSS(pts) + funLOSS(reb) + funLOSS(ast) + funLOSS(stl) + funLOSS(blk) + funLOSS(tover),
             RESULT = funRESULT(sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(reb) + sum(ast) + sum(stl) + sum(blk) + sum(tover)))
 
+#create standings
+standings <- matchup_results %>%
+  select(team, WIN, TIE, LOSS, RESULT) %>%
+  group_by(team) %>%
+  summarise(WINS = funWIN(sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(reb) + sum(ast) + sum(stl) + sum(blk) + sum(tover)),
+            TIES = funTIE(sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(reb) + sum(ast) + sum(stl) + sum(blk) + sum(tover)),
+            LOSSES = funLOSS(sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(reb) + sum(ast) + sum(stl) + sum(blk) + sum(tover)))
+            
 #create shinyapp
 ui <- fluidPage(
-  h2("The League Power Rankings"),
+  h2("The League - Alternative Standings"),
+  DT::dataTableOutput("resultStandings"),
+  h2("The League - Matchup Results"),
   fluidRow(
            selectInput("week", "Week:",
                        c("All",
@@ -65,12 +75,15 @@ ui <- fluidPage(
                          unique(as.character(matchup_results$team))))
   ),
   # Create a new row for the table.
-  DT::dataTableOutput("result")
+  DT::dataTableOutput("resultMatchups")
 )
 
 server <- function(input, output) {
   # Filter data based on selections
-  output$result <- DT::renderDataTable(
+    output$resultStandings <- DT::renderDataTable(
+    DT::datatable({options = list(pageLength = 11)}))
+  
+    output$resultMatchups <- DT::renderDataTable(
     DT::datatable({
     data <- matchup_results
     if (input$week != "All") {
