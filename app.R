@@ -55,11 +55,11 @@ matchup_results <- matchup_results %>%
 
 #create standings
 standings <- matchup_results %>%
-  select(team, WIN, TIE, LOSS, RESULT) %>%
-  group_by(weekno, team) %>%
-  summarise(WINS = funWIN(sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(reb) + sum(ast) + sum(stl) + sum(blk) + sum(tover)),
-            TIES = funTIE(sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(reb) + sum(ast) + sum(stl) + sum(blk) + sum(tover)),
-            LOSSES = funLOSS(sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(reb) + sum(ast) + sum(stl) + sum(blk) + sum(tover)))
+  select(team, RESULT) %>%
+  group_by(team) %>%
+  summarise(WINS = count(matchup_results$RESULT, vars = "WIN"),
+            TIES = count(matchup_results$RESULT, vars = "TIE"),
+            LOSSES = count(matchup_results$RESULT, vars = "LOSS"))
             
 #create shinyapp
 ui <- fluidPage(
