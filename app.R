@@ -7,7 +7,7 @@ library(DT)
 conn <- dbConnect(RPostgres::Postgres(),dbname = 'roster_scores', host = 'db-postgresql-sgp1-84573-do-user-1917838-0.db.ondigitalocean.com', port = 25060, user = 'doadmin', password = 'lzyhz8inuf02262q')
 
 #query the db and save data frame
-matchup_scores <- dbGetQuery(conn, "SELECT * from matchup_results")
+matchup_results <- dbGetQuery(conn, "SELECT * from matchup_results")
 
 #create functions
 varCat <- function(x) {
