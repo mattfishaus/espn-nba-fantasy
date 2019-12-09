@@ -64,7 +64,7 @@ server <- function(input, output) {
       data <- data[data$team == input$team,]
     }
     data
-  },options = list(autoWidth = TRUE, pageLength = 11)))
+  },options = list(autoWidth = TRUE, columnDefs = list(list(width = '50px', targets = "_all")), pageLength = 11)))
 }
 
 shinyApp(ui = ui, server = server)
