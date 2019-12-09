@@ -35,7 +35,7 @@ ui <- fluidPage(
                          unique(as.character(matchup_results$weekno)))),
            selectInput("team", "Team:",
                        c("All",
-                         unique(as.character(matchup_results$teamno))))
+                         unique(as.character(matchup_results$team))))
   ),
   # Create a new row for the table.
   DT::dataTableOutput("result")
@@ -49,7 +49,7 @@ server <- function(input, output) {
       data <- data[data$weekno == input$week,]
     }
     if (input$team != "All") {
-      data <- data[data$teamno == input$team,]
+      data <- data[data$team == input$team,]
     }
     data
   }))
