@@ -44,6 +44,30 @@ funRESULT <- function(x) {
   }
 }
 
+funWINSUM <- function(x) {
+  if (x > 0) {
+    return(1)
+  } else {
+    return(0)
+  }
+}
+
+funTIESUM <- function(x) {
+  if (x == 0) {
+    return(1)
+  } else {
+    return(0)
+  }
+}
+
+funLOSSSUM <- function(x) {
+  if (x < 0) {
+    return(1)
+  } else {
+    return(0)
+  }
+}
+
 #create new matchup_results data frame
 results <- matchup_results %>% 
   select(weekno, team, opponent, fgpct, ftpct, tpm, pts, reb, ast, stl, blk, tover) %>%
@@ -53,14 +77,16 @@ results <- matchup_results %>%
             LOSS = funLOSS(fgpct) + funLOSS(ftpct) + funLOSS(tpm) + funLOSS(pts) + funLOSS(reb) + funLOSS(ast) + funLOSS(stl) + funLOSS(blk) + funLOSS(tover),
             RESULT = funRESULT(sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(reb) + sum(ast) + sum(stl) + sum(blk) + sum(tover)))
 
+resultsSUM <- matchup_results %>% 
+  select(weekno, team, opponent, fgpct, ftpct, tpm, pts, reb, ast, stl, blk, tover) %>%
+  group_by(weekno, team, opponent) %>%  
+  summarise(WINS = funWINSUM(sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(reb) + sum(ast) + sum(stl) + sum(blk) + sum(tover)),
+            TIES = funTIESUM(sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(reb) + sum(ast) + sum(stl) + sum(blk) + sum(tover)),
+            LOSSES = funLOSSSUM(sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(reb) + sum(ast) + sum(stl) + sum(blk) + sum(tover)))
+
 #create standings
-standings <- results %>%
-  select(weekno, team, RESULT) %>%
-  group_by(weekno, team) %>%
-  summarise(WINS = count(results$RESULT, var = "WIN"),
-            TIES = count(results$RESULT, var = "TIE"),
-            LOSSES = count(results$RESULT, var = "LOSS"))
-            
+standings <- resultsSUM %>% group_by(team) %>% summarise(WINS = sum(WINS), TIES = sum(TIES), LOSSES = sum(LOSSES))
+
 #create shinyapp
 ui <- fluidPage(
   h2("The League - Standings"),
