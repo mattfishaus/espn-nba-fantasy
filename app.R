@@ -53,8 +53,7 @@ server <- function(input, output) {
       data <- data[data$team == input$team,]
     }
     data
-  }
-  ),options = list(pageLength = 25))
+  },options = list(pageLength = 25)))
 }
 
 shinyApp(ui = ui, server = server)
