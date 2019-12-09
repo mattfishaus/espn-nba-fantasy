@@ -9,7 +9,7 @@ conn <- dbConnect(RPostgres::Postgres(),dbname = 'roster_scores', host = 'db-pos
 #query the db and save data frame
 matchup_scores <- dbGetQuery(conn, "SELECT * from matchup_scores")
 
-#create function
+#create functions
 varCat <- function(x) {
   if (x > 0) {
     return(1)
@@ -20,11 +20,22 @@ varCat <- function(x) {
   }
 }
 
+resultMatch <- function(x) {
+  if (x > 0) {
+    return(WIN)
+  } else if (x == 0) {
+    return(TIE)
+  } else {
+    return(LOSS)
+  }
+}
+
 #create new matchup_results data frame
 matchup_results <- matchup_scores %>% 
   select(weekno, team, opponent, fgpct_diff, ftpct_diff, tpm_diff, pts_diff, reb_diff, ast_diff, stl_diff, blk_diff, tover_diff) %>%
   group_by(weekno, team, opponent) %>% 
-  summarise(fgpct= varCat(fgpct_diff), ftpct= varCat(ftpct_diff), tpm= varCat(tpm_diff), pts= varCat(pts_diff), reb= varCat(reb_diff), ast= varCat(ast_diff), stl= varCat(stl_diff), blk= varCat(blk_diff), tover= varCat(tover_diff))
+  summarise(fgpct= varCat(fgpct_diff), ftpct= varCat(ftpct_diff), tpm= varCat(tpm_diff), pts= varCat(pts_diff), reb= varCat(reb_diff), ast= varCat(ast_diff), stl= varCat(stl_diff), blk= varCat(blk_diff), tover= varCat(tover_diff)) %>%
+  mutate(Result = resultMatch(rowSums(.[4:13])))
 
 #create shinyapp
 ui <- fluidPage(
@@ -53,7 +64,7 @@ server <- function(input, output) {
       data <- data[data$team == input$team,]
     }
     data
-  },options = list(pageLength = 12)))
+  },options = list(pageLength = 11)))
 }
 
 shinyApp(ui = ui, server = server)
