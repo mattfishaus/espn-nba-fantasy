@@ -56,7 +56,7 @@ results <- matchup_results %>%
 #create standings
 standings <- results %>%
   select(weekno, team, RESULT) %>%
-  group_by(team) %>%
+  group_by(weekno, team) %>%
   summarise(WINS = count(results$RESULT, var = "WIN"),
             TIES = count(results$RESULT, var = "TIE"),
             LOSSES = count(results$RESULT, var = "LOSS"))
