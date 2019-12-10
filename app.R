@@ -140,7 +140,7 @@ server <- function(input, output) {
       data <- data[data$weekno == input$week,]
     }
     if (input$team2 != "All") {
-      data <- data[data$team2 == input$team2,]
+      data <- data[data$team == input$team2,]
     }
     data
   },options = list(autoWidth = FALSE, columnDefs = list(list(width = '50px', targets = "_all")), pageLength = 100)))
