@@ -68,14 +68,25 @@ funLOSSSUM <- function(x) {
   }
 }
 
+#create team names
+teamNUM <- c(1,2,3,4,5,6,7,8,9,10,11,12)
+teamNames <- c("DEE", "TREN", "FISH", "LTM", "COWC", "MANC", "ADAM", "OLI", "BKUN", "DANI", "STRA", "TOLE") 
+teams <- data.frame(team=teamNUM, Name=teamNames)
+
+#create opponent names
+opponentNUM <- c(1,2,3,4,5,6,7,8,9,10,11,12)
+opponentNames <- c("DEE", "TREN", "FISH", "LTM", "COWC", "MANC", "ADAM", "OLI", "BKUN", "DANI", "STRA", "TOLE") 
+opponents <- data.frame(opponent=opponentNUM, Name=opponentNames)
+
 #create new matchup_results data frame
-results <- matchup_results %>% 
-  select(weekno, team, opponent, fgpct, ftpct, tpm, pts, reb, ast, stl, blk, tover) %>%
+results <- left_join(teams, matchup_results %>% 
+  select(team, opponent, weekno, fgpct, ftpct, tpm, pts, reb, ast, stl, blk, tover) %>%
   group_by(weekno, team, opponent) %>%
   summarise(WIN = funWIN(fgpct) + funWIN(ftpct) + funWIN(tpm) + funWIN(pts) + funWIN(reb) + funWIN(ast) + funWIN(stl) + funWIN(blk) + funWIN(tover),
             TIE = funTIE(fgpct) + funTIE(ftpct) + funTIE(tpm) + funTIE(pts) + funTIE(reb) + funTIE(ast) + funTIE(stl) + funTIE(blk) + funTIE(tover),
             LOSS = funLOSS(fgpct) + funLOSS(ftpct) + funLOSS(tpm) + funLOSS(pts) + funLOSS(reb) + funLOSS(ast) + funLOSS(stl) + funLOSS(blk) + funLOSS(tover),
-            RESULT = funRESULT(sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(reb) + sum(ast) + sum(stl) + sum(blk) + sum(tover)))
+            RESULT = funRESULT(sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(reb) + sum(ast) + sum(stl) + sum(blk) + sum(tover))),
+  by = c('team'))
 
 resultsSUM <- matchup_results %>% 
   select(weekno, team, opponent, fgpct, ftpct, tpm, pts, reb, ast, stl, blk, tover) %>%
@@ -85,7 +96,7 @@ resultsSUM <- matchup_results %>%
             LOSSES = funLOSSSUM(sum(fgpct) + sum(ftpct) + sum(tpm) + sum(pts) + sum(reb) + sum(ast) + sum(stl) + sum(blk) + sum(tover)))
 
 #create standings
-standings <- resultsSUM %>% group_by(team) %>% summarise(WINS = sum(WINS), TIES = sum(TIES), LOSSES = sum(LOSSES))
+standings <- left_join(teams, resultsSUM %>% group_by(team) %>% summarise(WINS = sum(WINS), TIES = sum(TIES), LOSSES = sum(LOSSES)), by = c('team'))
 
 #create shinyapp
 ui <- fluidPage(
