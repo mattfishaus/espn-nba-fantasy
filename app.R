@@ -131,7 +131,13 @@ server <- function(input, output) {
         data <- data[data$team == input$team,]
       }
       data
-    },rownames = FALSE, options = list(autoWidth = FALSE, columnDefs = list(list(sClass="alignLeft", width = '50px', targets = "_all")), pageLength = 12)))
+    },
+    extensions = c('Buttons', 'ColReorder', 'Responsive', 'Scroller'),
+    style = 'bootstrap',
+    class = 'table-bordered stripe table-condensed',
+    rownames = FALSE, 
+    options = list(autoWidth = FALSE, columnDefs = list(list(className='dt-left',sClass="alignLeft", width = '50px', targets = "_all")), pageLength = 12)
+    ))
   
     output$resultMatchups <- DT::renderDataTable(
     DT::datatable({
