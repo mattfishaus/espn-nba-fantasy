@@ -136,6 +136,7 @@ server <- function(input, output) {
     style = 'bootstrap',
     class = 'table-bordered stripe table-condensed',
     rownames = FALSE, 
+    autoWidth = FALSE,
     options = list(autoWidth = FALSE, columnDefs = list(list(className='dt-left',sClass="alignLeft", width = '50px', targets = "_all")), pageLength = 12)
     ))
   
@@ -149,7 +150,13 @@ server <- function(input, output) {
       data <- data[data$team == input$team2,]
     }
     data
-  },rownames = FALSE, options = list(autoWidth = FALSE, columnDefs = list(list(sClass="alignLeft", width = '50px', targets = "_all")), pageLength = 100)))
-}
+  },
+  extensions = c('Buttons', 'ColReorder', 'Responsive', 'Scroller'),
+  style = 'bootstrap',
+  class = 'table-bordered stripe table-condensed',  
+  rownames = FALSE, 
+  options = list(autoWidth = FALSE, columnDefs = list(list(className='dt-left', sClass="alignLeft", width = '50px', targets = "_all")), pageLength = 100)
+  ))
+  }
 
 shinyApp(ui = ui, server = server)
