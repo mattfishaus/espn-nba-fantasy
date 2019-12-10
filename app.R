@@ -114,7 +114,7 @@ ui <- fluidPage(
            selectInput("week", "Week:",
                        c("All",
                          unique(as.character(results$weekno)))),
-           selectInput("team", "Team:",
+           selectInput("team2", "Team:",
                        c("All",
                          unique(as.character(results$team))))
   ),
