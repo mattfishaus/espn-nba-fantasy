@@ -136,8 +136,7 @@ server <- function(input, output) {
     style = 'bootstrap',
     class = 'table-bordered stripe table-condensed',
     rownames = FALSE, 
-    autoWidth = FALSE,
-    options = list(autoWidth = FALSE, columnDefs = list(list(className='dt-left',sClass="alignLeft", width = '50px', targets = "_all")), pageLength = 12)
+    options = list(autoWidth = TRUE, columnDefs = list(list(className='dt-left',sClass="alignLeft", width = '100px', targets = "_all")), pageLength = 12)
     ))
   
     output$resultMatchups <- DT::renderDataTable(
@@ -155,7 +154,7 @@ server <- function(input, output) {
   style = 'bootstrap',
   class = 'table-bordered stripe table-condensed',  
   rownames = FALSE, 
-  options = list(autoWidth = FALSE, columnDefs = list(list(className='dt-left', sClass="alignLeft", width = '50px', targets = "_all")), pageLength = 100)
+  options = list(autoWidth = TRUE, columnDefs = list(list(className='dt-left', sClass="alignLeft", width = '100px', targets = "_all")), pageLength = 100)
   ))
   }
 
