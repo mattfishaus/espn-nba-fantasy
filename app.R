@@ -100,7 +100,7 @@ standings <- left_join(teams, resultsSUM %>% group_by(team) %>% summarise(WINS =
 
 #create shinyapp
 ui <- fluidPage(
-  h2("The League - Standings"),
+  h2("The League - Alternate Standings"),
   fluidRow(
     selectInput("team", "Team:",
                 c("All",
@@ -131,7 +131,7 @@ server <- function(input, output) {
         data <- data[data$team == input$team,]
       }
       data
-    },options = list(autoWidth = FALSE, columnDefs = list(list(width = '50px', targets = "_all")), pageLength = 12)))
+    },rownames = FALSE, options = list(autoWidth = FALSE, columnDefs = list(list(width = '50px', targets = "_all")), pageLength = 12)))
   
     output$resultMatchups <- DT::renderDataTable(
     DT::datatable({
@@ -143,7 +143,7 @@ server <- function(input, output) {
       data <- data[data$team == input$team2,]
     }
     data
-  },options = list(autoWidth = FALSE, columnDefs = list(list(width = '50px', targets = "_all")), pageLength = 100)))
+  },rownames = FALSE, options = list(autoWidth = FALSE, columnDefs = list(list(width = '50px', targets = "_all")), pageLength = 100)))
 }
 
 shinyApp(ui = ui, server = server)
