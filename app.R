@@ -100,7 +100,7 @@ standings <- left_join(teams, resultsSUM %>% group_by(team) %>% summarise(WINS =
 
 #create shinyapp
 ui <- fluidPage(
-  h2("The League - Week 9 Alternate Standings"),
+  h2("The League - Alternate Standings"),
   fluidRow(
     selectInput("team", "Team:",
                 c("All",
@@ -109,7 +109,7 @@ ui <- fluidPage(
   # Create a new row for the table.
   DT::dataTableOutput("resultStandings"),
   
-  h2("The League - Week 9 Matchup Results"),
+  h2("The League - Matchup Results"),
   fluidRow(
            selectInput("week", "Week:",
                        c("All",
